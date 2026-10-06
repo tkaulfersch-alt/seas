@@ -29,6 +29,7 @@ io.on("connection", (socket) => {
 
     socket.on("ready", () => {
         socket.emit("init", { id: id, players: players });
+        socket.broadcast.emit("playerJoined", players[id]);
     });
 
     socket.on("update", (data) => {
@@ -37,7 +38,7 @@ io.on("connection", (socket) => {
             players[id].y = data.y;
             players[id].angle = data.angle;
 
-            socket.broadcast.emit("update", { id: id, x: data.x, y: data.y, angle: data.angle });
+            socket.broadcast.emit("playerMoved", { id: id, x: data.x, y: data.y, angle: data.angle });
         }
     });
 
